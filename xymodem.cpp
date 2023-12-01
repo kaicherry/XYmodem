@@ -421,56 +421,5 @@ void XYmodem::format_flash() {
 
 int XYmodem::begin()
 {
-#if defined(ADAFRUIT_ITSYBITSY_M0) || defined(ADAFRUIT_CIRCUITPLAYGROUND_M0)
-  Serial.println("M0 SPI Flash");
-  // Initialize flash library and check its chip ID.
-  if (!flash.begin(FLASH_TYPE)) {
-    Serial.println("Error, failed to initialize flash chip!");
-    return -1;
-  }
-  Serial.print("Flash chip JEDEC ID: 0x"); Serial.println(flash.GetJEDECID(), HEX);
-
-  // Call fatfs activate to make it the active chip that receives low level fatfs
-  // callbacks. This is necessary before making any manual fatfs function calls
-  // (like the f_fdisk and f_mkfs functions further below).  Be sure to call
-  // activate before you call any fatfs functions yourself!
-  FATFILESYS.activate();
-
-#elif defined(ADAFRUIT_METRO_M4_EXPRESS)
-  Serial.println("M4 QSPI Flash");
-  // Initialize flash library and check its chip ID.
-  if (!flash.begin()) {
-    Serial.println("Error, failed to initialize flash chip!");
-    return -1;
-  }
-  flash.setFlashType(FLASH_TYPE);
-  // Call fatfs activate to make it the active chip that receives low level fatfs
-  // callbacks. This is necessary before making any manual fatfs function calls
-  // (like the f_fdisk and f_mkfs functions further below).  Be sure to call
-  // activate before you call any fatfs functions yourself!
-  FATFILESYS.activate();
-
-#endif
-
-  // Mount the filesystem. Format it if it fails.
-  if (!FATFILESYS.begin(chipSelect)) {
-    Serial.println("Error, failed to mount filesystem!");
-#if defined(ADAFRUIT_SPIFLASH)
-    // Wait for user to send OK to continue.
-    Serial.setTimeout(30000);  // Increase timeout to print message less frequently.
-    do {
-      Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-      Serial.println("This sketch will ERASE ALL DATA on the flash chip and format it with a new filesystem!");
-      Serial.println("Type OK (all caps) and press enter to continue.");
-      Serial.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }
-    while (!Serial.find((char *)"OK"));
-    format_flash();
-
-    Serial.println("Flash chip successfully formatted with new empty filesystem!");
-#else
-    return -2;
-#endif
-  }
   return 0;
 }
