@@ -24,7 +24,7 @@ SOFTWARE.
 
 #ifndef _XYMODEM_H_
 #define _XYMODEM_H_
-
+#include <LittleFS.h>
 #if defined(ADAFRUIT_ITSYBITSY_M0) || defined(ADAFRUIT_CIRCUITPLAYGROUND_M0)
 #define ADAFRUIT_SPIFLASH 1
 #define FATFILESYS fatfs
@@ -102,7 +102,7 @@ extern Adafruit_W25Q16BV_FatFs fatfs;
 #define XMODEM_PORT SerialUSB
 
 #else
-#include <LittleFS.h>
+
 #define FATFILESYS LittleFS
 #define FATFILESYS_CLASS LittleFS
 #define chipSelect
