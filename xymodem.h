@@ -104,7 +104,7 @@ extern Adafruit_W25Q16BV_FatFs fatfs;
 #else
 
 #define FATFILESYS LittleFS
-#define FATFILESYS_CLASS LittleFS
+#define FATFILESYS_CLASS LittleFSFS
 #define chipSelect
 #define XMODEM_PORT Serial
 #endif
